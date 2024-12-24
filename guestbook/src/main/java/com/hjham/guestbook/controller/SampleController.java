@@ -49,4 +49,10 @@ public class SampleController {
   public void ex03() {
     log.info("ex03");
   }
+
+  @GetMapping({"exLayout1", "exLayout2", "exTemplate", "exSidebar"})
+  public void exLayout1() {
+    log.info("exLayout1");
+  }
+  
 }

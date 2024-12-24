@@ -9,7 +9,9 @@
 <body>
 <ul>
   <li th:each="dto : ${list}">
-    <a th:href="@{/sample/exView(sno=${dto.sno}, first=${dto.first+dto.last})}">[[${dto}]]</a>
+    <a th:href="@{/sample/exView(sno=${dto.sno}, first=${dto.first+dto.last})}">
+      [[${#numbers.formatInteger(dto.sno, 5)}]] --- [[${#temporals.format(dto.regTime, 'yyyy/MM/dd HH:mm:ss.SSS')}]]
+    </a>
   </li>
 </ul>  
 </body>

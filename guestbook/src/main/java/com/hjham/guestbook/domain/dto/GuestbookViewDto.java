@@ -1,8 +1,8 @@
-package com.hjham.guestbook.dto;
+package com.hjham.guestbook.domain.dto;
 
 import java.time.LocalDateTime;
 
-import com.hjham.guestbook.domain.entity.GuestbookEntity;
+import com.hjham.guestbook.domain.entity.Guestbook;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +17,7 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GuestbookListDto {
+public class GuestbookViewDto {
   private Long gno;
   private String title;
   private String content;
@@ -25,7 +25,7 @@ public class GuestbookListDto {
   private LocalDateTime regDate;
   private LocalDateTime modDate;
 
-  public GuestbookListDto(GuestbookEntity entity) {
+  public GuestbookViewDto(Guestbook entity) {
     this.gno = entity.getGno();
     this.title = entity.getTitle();
     this.content = entity.getContent();
@@ -34,6 +34,4 @@ public class GuestbookListDto {
     this.modDate =entity.getModDate();
 
   }
-
-
 }

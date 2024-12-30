@@ -12,14 +12,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.hjham.guestbook.domain.dto.GuestbookDto;
 import com.hjham.guestbook.domain.entity.Guestbook;
 import com.hjham.guestbook.domain.entity.QGuestbook;
-import com.hjham.guestbook.service.GuestbookService;
-import com.hjham.guestbook.service.GuestbookServiceImpl;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
@@ -34,6 +32,7 @@ public class GuestbookRepositoryTests {
   }
 
   @Test
+  @Transactional
   public void testInsert() {
     repository.saveAll(
       IntStream.rangeClosed(1, 300).mapToObj(i->{

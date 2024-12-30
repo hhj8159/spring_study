@@ -3,21 +3,25 @@ package com.hjham.guestbook.service;
 import java.util.List;
 
 import com.hjham.guestbook.domain.dto.GuestbookDto;
-import com.hjham.guestbook.domain.dto.GuestbookListDto;
-import com.hjham.guestbook.domain.dto.GuestbookModifyDto;
-import com.hjham.guestbook.domain.dto.GuestbookViewDto;
+
 import com.hjham.guestbook.domain.dto.PageRequestDto;
 import com.hjham.guestbook.domain.dto.PageResultDto;
 import com.hjham.guestbook.domain.entity.Guestbook;
+import com.hjham.guestbook.domain.entity.QGuestbook;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+
 
 public interface GuestbookService {
   Long write(GuestbookDto dto);
   PageResultDto<GuestbookDto, Guestbook> list(PageRequestDto dto);
 
-  void modify(GuestbookModifyDto dto);
+  void modify(GuestbookDto dto);
   void remove(Long gno);
 
-  GuestbookViewDto get(Long gno);
+  // GuestbookViewDto get(Long gno);
+
+  GuestbookDto read(Long gno);
 
   // 구상 default, static
   default Guestbook toEntity(GuestbookDto dto) {
@@ -41,5 +45,29 @@ public interface GuestbookService {
     .build();
   }
 
+  // private BooleanBuilder getSearch(PageRequestDto requestDto){
+  //   String type = requestDto.getType();
+  //   BooleanBuilder booleanBuilder = new BooleanBuilder();
+  //   QGuestbook qGuestbook = QGuestbook.guestbook;
+  //   BooleanExpression expression = qGuestbook.gno.gt(0L);
+  //   booleanBuilder.and(expression);
+  //   if(type == null || type.trim().isEmpty()){
+  //     return booleanBuilder;
+  //   }
+
+  //   BooleanBuilder conditionalBuilder = new BooleanBuilder();
+  //   String keyword = requestDto.getKeyword();
+  //   if(type.contains("T")){
+  //     conditionalBuilder.or(qGuestbook.title.contains(keyword));
+  //   }
+  //   if(type.contains("C")){
+  //     conditionalBuilder.or(qGuestbook.content.contains(keyword));
+  //   }
+  //   if(type.contains("W")){
+  //     conditionalBuilder.or(qGuestbook.writer.contains(keyword));
+  //   }
+  //   booleanBuilder.and(conditionalBuilder);
+  //   return booleanBuilder;
+  // }
   
 }

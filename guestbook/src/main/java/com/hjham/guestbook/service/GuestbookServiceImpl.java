@@ -11,13 +11,14 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.hjham.guestbook.domain.dto.GuestbookDto;
-import com.hjham.guestbook.domain.dto.GuestbookListDto;
-import com.hjham.guestbook.domain.dto.GuestbookModifyDto;
-import com.hjham.guestbook.domain.dto.GuestbookViewDto;
+
 import com.hjham.guestbook.domain.dto.PageRequestDto;
 import com.hjham.guestbook.domain.dto.PageResultDto;
 import com.hjham.guestbook.domain.entity.Guestbook;
+import com.hjham.guestbook.domain.entity.QGuestbook;
 import com.hjham.guestbook.repository.GuestbookRepository;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -29,17 +30,23 @@ public class GuestbookServiceImpl implements GuestbookService{
   private GuestbookRepository repository;
 
   @Override
-  public GuestbookViewDto get(Long gno) {
+  public GuestbookDto read(Long gno) {
     Optional<Guestbook> opt = repository.findById(gno);
-    if (!opt.isPresent()) {
-      return null;
-    }    
-    return new GuestbookViewDto(opt.get());
+    return opt.isPresent() ? toDto(opt.get()) : null;
   }
 
+  // @Override
+  // public GuestbookViewDto get(Long gno) {
+  //   Optional<Guestbook> opt = repository.findById(gno);
+  //   if (!opt.isPresent()) {
+  //     return null;
+  //   }    
+  //   return new GuestbookViewDto(opt.get());
+  // }
+
   @Override
-  public void modify(GuestbookModifyDto dto) {
-    repository.save(dto.toEntity());
+  public void modify(GuestbookDto dto) {
+    repository.save(toEntity(dto));
   }
   
   @Override
@@ -59,10 +66,38 @@ public class GuestbookServiceImpl implements GuestbookService{
   @Override
   public PageResultDto<GuestbookDto, Guestbook> list(PageRequestDto dto) {
     Pageable pageable = dto.getPageable(Sort.by(Direction.DESC, "gno"));
-    Page<Guestbook> page = repository.findAll(pageable);
+    BooleanBuilder booleanBuilder = getSearch(dto);
+    Page<Guestbook> page = repository.findAll(booleanBuilder, pageable);
     PageResultDto<GuestbookDto, Guestbook> resultDto = new PageResultDto<>(page, e -> toDto(e));
     return resultDto;
   }
   
-  
+
+
+
+  private BooleanBuilder getSearch(PageRequestDto requestDto){
+  String type = requestDto.getType();
+  BooleanBuilder booleanBuilder = new BooleanBuilder();
+  QGuestbook qGuestbook = QGuestbook.guestbook;
+  BooleanExpression expression = qGuestbook.gno.gt(0L);
+  booleanBuilder.and(expression);
+  if(type == null || type.trim().isEmpty()){
+    return booleanBuilder;
+  }
+
+  BooleanBuilder conditionalBuilder = new BooleanBuilder();
+  String keyword = requestDto.getKeyword();
+  if(type.contains("T")){
+    conditionalBuilder.or(qGuestbook.title.contains(keyword));
+  }
+  if(type.contains("C")){
+    conditionalBuilder.or(qGuestbook.content.contains(keyword));
+  }
+  if(type.contains("W")){
+    conditionalBuilder.or(qGuestbook.writer.contains(keyword));
+  }
+  booleanBuilder.and(conditionalBuilder);
+  return booleanBuilder;
+}
+
 }

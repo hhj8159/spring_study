@@ -3,7 +3,11 @@ package com.hjham.guestbook.service;
 import java.time.LocalDateTime;
 
 import com.hjham.guestbook.domain.dto.BoardDto;
+import com.hjham.guestbook.domain.dto.GuestbookDto;
+import com.hjham.guestbook.domain.dto.PageRequestDto;
+import com.hjham.guestbook.domain.dto.PageResultDto;
 import com.hjham.guestbook.domain.entity.Board;
+import com.hjham.guestbook.domain.entity.Guestbook;
 import com.hjham.guestbook.domain.entity.Member;
 
 public interface BoardService {
@@ -20,8 +24,9 @@ public interface BoardService {
     if(arr == null) return null;
     BoardDto.BoardDtoBuilder builder = BoardDto.builder();
     for(Object o : arr) {
+      if(o == null) continue; // null이면 무시하고 다음 진행
       Class<?> cls = o.getClass();
-      if(cls ==  int.class || cls == Integer.class){
+      if(cls ==  long.class || cls == Long.class){
         builder.replyCnt((Integer.parseInt(o.toString())));
       }
       else if(cls == Member.class) {
@@ -44,4 +49,9 @@ public interface BoardService {
   Long register(BoardDto dto);
 
   BoardDto get(Long bno);
+
+  PageResultDto<BoardDto, Object[]> list(PageRequestDto dto);
+  void modify(BoardDto dto);
+  void remove(Long bno);
+
 }

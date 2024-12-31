@@ -61,7 +61,17 @@ public class ReplyRepositoryTests {
   public void testQuerydsl() {
   }
 
-  
+  @Test
+  public void testDelete() {
+    
+  }
+
+  @Test
+  @Transactional
+  @Rollback(false)
+  public void testDeleteByBno() {
+    repository.deleteByBoardBno(6L);
+  }
   
  
 }

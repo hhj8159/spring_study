@@ -14,7 +14,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "dtoList")
 public class PageResultDto<D, E> {
   private List<D> dtoList;
 

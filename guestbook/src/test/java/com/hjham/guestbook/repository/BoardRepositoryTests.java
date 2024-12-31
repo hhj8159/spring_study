@@ -78,8 +78,8 @@ public class BoardRepositoryTests {
   
   @Test
   public void testGetBoardByBno() {
-    Object[] arr = repository.getBoardByBno(5L);
-    log.info(Arrays.toString(arr));
+    Object[] result = (Object[])repository.getBoardByBno(5L);
+    log.info(Arrays.toString(result));
   }
 
   @Test
@@ -89,6 +89,7 @@ public class BoardRepositoryTests {
 
   @Test
   public void testQuerydsl() {
+    
   }
 
   

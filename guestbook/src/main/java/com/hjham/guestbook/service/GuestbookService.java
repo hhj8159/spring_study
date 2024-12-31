@@ -45,29 +45,6 @@ public interface GuestbookService {
     .build();
   }
 
-  // private BooleanBuilder getSearch(PageRequestDto requestDto){
-  //   String type = requestDto.getType();
-  //   BooleanBuilder booleanBuilder = new BooleanBuilder();
-  //   QGuestbook qGuestbook = QGuestbook.guestbook;
-  //   BooleanExpression expression = qGuestbook.gno.gt(0L);
-  //   booleanBuilder.and(expression);
-  //   if(type == null || type.trim().isEmpty()){
-  //     return booleanBuilder;
-  //   }
 
-  //   BooleanBuilder conditionalBuilder = new BooleanBuilder();
-  //   String keyword = requestDto.getKeyword();
-  //   if(type.contains("T")){
-  //     conditionalBuilder.or(qGuestbook.title.contains(keyword));
-  //   }
-  //   if(type.contains("C")){
-  //     conditionalBuilder.or(qGuestbook.content.contains(keyword));
-  //   }
-  //   if(type.contains("W")){
-  //     conditionalBuilder.or(qGuestbook.writer.contains(keyword));
-  //   }
-  //   booleanBuilder.and(conditionalBuilder);
-  //   return booleanBuilder;
-  // }
   
 }

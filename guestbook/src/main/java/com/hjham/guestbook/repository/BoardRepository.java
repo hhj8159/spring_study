@@ -25,14 +25,14 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
   , countQuery = "select count(b) from tbl_board b") // jpa는 데이터베이스 안가림 nativeQuery = true 는 최후의 수단
   Page<Object[]> getBoardWithReplyCount(Pageable pageable);
 
-  // bno , 회원, 게시글, 댓글갯수
+  // bno, 회원, 게시글, 댓글갯수
   @Query(value = "select count(r), b, m\r\n" + //
         "from tbl_board b\r\n" + //
         "left join member m\r\n" + //
         "left join tbl_reply r on b = r.board\r\n" + //
         "where b.bno = :bno \r\n" //
         )
-  Object[] getBoardByBno(@Param("bno") Long bno);
+  Object getBoardByBno(@Param("bno") Long bno);
 
 
 

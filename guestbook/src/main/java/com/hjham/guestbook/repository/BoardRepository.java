@@ -9,8 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.hjham.guestbook.domain.entity.Board;
+import com.hjham.guestbook.repository.search.SearchBoardRepository;
 
-public interface BoardRepository extends JpaRepository<Board, Long>{
+public interface BoardRepository extends JpaRepository<Board, Long>, SearchBoardRepository{
   @Query("select b,m from tbl_board b left join member m where b.bno = :bno")
   Object getBoardWithMember(@Param("bno") Long bno);
 
@@ -22,7 +23,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
         "left join member m\r\n" + //
         "left join tbl_reply r on b = r.board\r\n" + //
         "group by b"
-  , countQuery = "select count(b) from tbl_board b") // jpa는 데이터베이스 안가림 nativeQuery = true 는 최후의 수단
+  , countQuery = "select count(b) from tbl_board b") // jpql 데이터베이스 안가림 nativeQuery = true 는 최후의 수단
   Page<Object[]> getBoardWithReplyCount(Pageable pageable);
 
   // bno, 회원, 게시글, 댓글갯수

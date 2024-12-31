@@ -89,10 +89,18 @@ public class BoardRepositoryTests {
 
   @Test
   public void testQuerydsl() {
-    
+
   }
 
+  @Test
+  public void testSearch1() {
+    repository.search1();
+  }
   
+  @Test
+  public void testSearchPage() {
+    repository.searchPage("TC", "1",
+    PageRequest.of(0, 10, Sort.by(Direction.DESC, "bno", "title")));
+  }
   
- 
 }

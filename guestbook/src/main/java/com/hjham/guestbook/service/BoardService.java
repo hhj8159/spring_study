@@ -23,6 +23,7 @@ public interface BoardService {
   default BoardDto toDto(Object[] arr) {
     if(arr == null) return null;
     BoardDto.BoardDtoBuilder builder = BoardDto.builder();
+    boolean containBoard = false;
     for(Object o : arr) {
       if(o == null) continue; // null이면 무시하고 다음 진행
       Class<?> cls = o.getClass();
@@ -34,6 +35,7 @@ public interface BoardService {
         builder.memberName(((Member) o).getName());
       }
       else if(cls == Board.class) {
+        containBoard = true;
         Board b = (Board)o;
         builder.bno(b.getBno());
         builder.title(b.getTitle());
@@ -42,7 +44,7 @@ public interface BoardService {
         builder.modDate(b.getModDate());
       }
     }
-    return builder.build();  
+    return containBoard ? builder.build() : null;  
   }
 
   //

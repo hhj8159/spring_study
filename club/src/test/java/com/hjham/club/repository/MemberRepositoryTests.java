@@ -60,4 +60,9 @@ public class MemberRepositoryTests {
     User user;
   }
 
+  @Test
+  @Transactional
+  public void testMember() {
+    
+  }
 }

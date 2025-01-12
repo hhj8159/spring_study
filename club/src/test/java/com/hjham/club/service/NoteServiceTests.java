@@ -38,6 +38,8 @@ public class NoteServiceTests {
   }
 
   @Test
+  @Transactional
+  @Rollback(false)
   public void testmodify() {
     service.write(NoteDto.builder()
       .num(8L)
@@ -49,6 +51,8 @@ public class NoteServiceTests {
   }
 
   @Test
+  @Transactional
+  @Rollback(false)
   public void testremove() {
     service.remove(8L);
   }

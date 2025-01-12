@@ -23,13 +23,6 @@ public class NoteServiceImpl implements NoteService {
   @Override
   public NoteDto get(Long num) {
     return entityToDto(repository.findByNum(num));
-    // Optional<Note> result = noteRepository.findById(num);
-    // log.info("getstart");
-    // if(result.isPresent()) {      
-    //   log.info(result.get());
-    //   return entityToDto(result.get());
-    // }
-    // return null;
   }
 
   @Override
@@ -39,15 +32,9 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  public void modify(NoteDto noteDto) {
-    Long num = noteDto.getNum();
-    Optional<Note> result = repository.findById(num);
-    if(result.isPresent()) {
-      Note note = result.get();
-      note.changeTitle(noteDto.getTitle());
-      note.changeContent(noteDto.getContent());
-      repository.save(note);
-    }    
+  public int modify(NoteDto noteDto) {
+    repository.save(dtoToEntity(noteDto));
+    return 1;    
   }
 
   @Override
@@ -62,8 +49,9 @@ public class NoteServiceImpl implements NoteService {
   }
 
   @Override
-  public void remove(Long num) {
+  public int remove(Long num) {
     repository.deleteById(num);
+    return 1;
   }
 
   

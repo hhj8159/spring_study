@@ -41,6 +41,7 @@ public class NoteServiceTests {
   @Transactional
   @Rollback(false)
   public void testmodify() {
+//   NoteDto dto = NoteDto.builder()
     service.write(NoteDto.builder()
       .num(8L)
       .title("제목")

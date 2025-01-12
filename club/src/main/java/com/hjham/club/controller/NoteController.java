@@ -47,12 +47,12 @@ public class NoteController {
   }
   
   @PutMapping("{num}")
-  public void modify(@PathVariable Long num, @RequestBody NoteDto dto) {
-      service.modify(dto);
+  public int modify(@PathVariable Long num, @RequestBody NoteDto dto) {
+     return service.modify(dto);
   }
   
   @DeleteMapping("{num}")
-  public void remove(@PathVariable Long num) {
-      service.remove(num);
+  public int remove(@PathVariable Long num) {
+     return service.remove(num);
   }
 }

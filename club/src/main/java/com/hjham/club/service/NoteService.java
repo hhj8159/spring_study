@@ -9,10 +9,10 @@ import java.util.List;
 public interface NoteService {
   Long write(NoteDto noteDto);  
   NoteDto get(Long num);  
-//  void modify(NoteDto noteDto);
-  int modify(NoteDto noteDto);
-//  void remove(Long num);
-  int remove(Long num);
+ int modify(NoteDto noteDto);
+  // int modify(NoteDto noteDto);
+ int remove(Long num);
+  // int remove(Long num);
   List<NoteDto> list(String writerEmail);
 
   default Note dtoToEntity(NoteDto noteDto) {

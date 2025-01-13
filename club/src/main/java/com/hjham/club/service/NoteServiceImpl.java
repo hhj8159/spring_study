@@ -30,22 +30,22 @@ public class NoteServiceImpl implements NoteService {
     List<Note> noteList = repository.findByMemberEmail(writerEmail);
     return noteList.stream().map(note -> entityToDto(note)).collect(Collectors.toList());
   }
-
+  
+  @Override
+  public Long write(NoteDto noteDto) {
+    Note note = dtoToEntity(noteDto);
+    
+    log.info("====================");
+    log.info(note);
+    
+    repository.save(note);
+    return note.getNum();
+  }
+  
   @Override
   public int modify(NoteDto noteDto) {
     repository.save(dtoToEntity(noteDto));
     return 1;    
-  }
-
-  @Override
-  public Long write(NoteDto noteDto) {
-    Note note = dtoToEntity(noteDto);
-
-    log.info("====================");
-    log.info(note);
-
-    repository.save(note);
-    return note.getNum();
   }
 
   @Override
@@ -54,8 +54,4 @@ public class NoteServiceImpl implements NoteService {
     return 1;
   }
 
-  
-
-
-  
 }

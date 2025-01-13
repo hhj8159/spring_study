@@ -30,31 +30,26 @@ public class NoteServiceTests {
   @Test
   public void testWrite() {
     service.write(NoteDto.builder()
-      .title("제목")
-      .content("내용")
+      .title("제목0113")
+      .content("내용0113")
       .mno(100L)
       .writerEmail("user100@hjham.com")
     .build());
   }
 
   @Test
-  @Transactional
-  @Rollback(false)
   public void testmodify() {
-//   NoteDto dto = NoteDto.builder()
-    service.write(NoteDto.builder()
-      .num(8L)
-      .title("제목")
-      .content("내용2222222")
-      .mno(100L)
-      .writerEmail("user100@hjham.com")
+    service.modify(NoteDto.builder()
+      .num(5L)
+      .title("제목수정1")
+      .content("내용수정1")
+      .mno(101L)
+      .writerEmail("hhj8159@gmail.com")
     .build());
   }
 
   @Test
-  @Transactional
-  @Rollback(false)
   public void testremove() {
-    service.remove(8L);
+    service.remove(11L);
   }
 }

@@ -13,6 +13,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hjham.club.security.dto.AuthMemberDto;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -20,6 +22,12 @@ import com.hjham.club.security.dto.AuthMemberDto;
 @Log4j2
 @RequestMapping("sample")
 public class SampleController {
+  @GetMapping("path")
+  public String getMethodName() {
+      return "/sample/all";
+  }
+  
+
   @GetMapping("all")
   public void exAll(@AuthenticationPrincipal AuthMemberDto dto) {
     log.info(dto);

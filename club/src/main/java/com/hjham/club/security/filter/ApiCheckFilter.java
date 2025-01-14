@@ -3,6 +3,9 @@ package com.hjham.club.security.filter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
@@ -40,8 +43,14 @@ public class ApiCheckFilter extends OncePerRequestFilter{
       log.info(request.getRequestURI());
 
       if(checkAuthHeader(request)) {
+        log.info("api checked success");
+        String token = request.getHeader("Authorization").substring(7);
+        String email = jwtUtil.validateExtract(token);
 
-        filterChain.doFilter(request, response);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, null);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        filterChain.doFilter(request, response);        
+        return;
       }
       else {
         response.setContentType("application/json;charset=utf-8");
@@ -51,8 +60,8 @@ public class ApiCheckFilter extends OncePerRequestFilter{
         jsonObject.put("message", "FAIL CHECK API TOKEN");
         
         response.getWriter().print(jsonObject);        
+        return;
       }
-      return;
     }
     filterChain.doFilter(request, response);
   }

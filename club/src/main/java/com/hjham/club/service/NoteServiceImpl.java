@@ -21,8 +21,8 @@ public class NoteServiceImpl implements NoteService {
   private final NoteRepository repository;
 
   @Override
-  public NoteDto get(Long num) {
-    return entityToDto(repository.findByNum(num));
+  public Optional<NoteDto> get(Long num) { // null값도 있을수있기에 optional
+    return repository.findById(num).map(this::entityToDto);
   }
 
   @Override
@@ -52,6 +52,11 @@ public class NoteServiceImpl implements NoteService {
   public int remove(Long num) {
     repository.deleteById(num);
     return 1;
+  }
+
+  @Override
+  public List<NoteDto> listAll() {
+    return repository.findAll().stream().map(this::entityToDto).toList();
   }
 
 }

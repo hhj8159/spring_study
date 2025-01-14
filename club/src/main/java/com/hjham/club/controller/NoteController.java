@@ -9,7 +9,9 @@ import com.hjham.club.service.NoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +40,28 @@ public class NoteController {
 
   @GetMapping("list")
   public List<NoteDto> list(String email) {
-      return service.list(email);
+    log.info(email);
+    return service.list(email);
   }
   
+  @GetMapping("listAll")
+  public List<NoteDto> listAll() {
+      return service.listAll();
+  }
+  
+
+  @SuppressWarnings("unchecked")
   @GetMapping("{num}")
-  public NoteDto get(@PathVariable Long num) {
-      return service.get(num);
+  public ResponseEntity<?> get(@PathVariable Long num) {
+    return service.get(num).map(ResponseEntity::ok)
+      .orElseGet(() -> {
+        Map<String, Object> ret = new HashMap<>();
+        ret.put("code", 404);
+        ret.put("message", "NOT_FOUND");
+        ResponseEntity<?> entity = new ResponseEntity<>(ret, HttpStatus.NOT_FOUND);
+        return (ResponseEntity<NoteDto>) entity;
+      });
+      // 전역 예외처리 @RestControllerAdivce ex)404 message같은 것
   }
   
   @PutMapping("{num}")

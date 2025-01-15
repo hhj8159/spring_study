@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hjham.club.entity.Member;
 import com.hjham.club.entity.Note;
 import com.hjham.club.entity.dto.NoteDto;
+import com.hjham.club.repository.MemberRepository;
 import com.hjham.club.repository.NoteRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,8 +20,12 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class NoteServiceImpl implements NoteService {
-  
+  // @Autowired
+  // private NoteRepository repository;
+  @Autowired
   private final NoteRepository repository;
+  @Autowired
+  private MemberRepository memberRepository;
 
   @Override
   public Optional<NoteDto> get(Long num) { // null값도 있을수있기에 optional
@@ -33,13 +40,13 @@ public class NoteServiceImpl implements NoteService {
   
   @Override
   public Long write(NoteDto noteDto) {
-    Note note = dtoToEntity(noteDto);
-    
-    log.info("====================");
-    log.info(note);
-    
-    repository.save(note);
-    return note.getNum();
+    Member member = memberRepository.findByEmail(noteDto.getMemberEmail());
+    noteDto.setMno(member.getMno());
+    log.info(noteDto);
+    return repository.save(dtoToEntity(noteDto)).getNum();
+    // Note note = dtoToEntity(noteDto);    
+    // repository.save(note);
+    // return note.getNum();
   }
   
   @Override

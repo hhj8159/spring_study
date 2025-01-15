@@ -20,7 +20,7 @@ public interface NoteService {
       .num(noteDto.getNum())
       .title(noteDto.getTitle())
       .content(noteDto.getContent())
-      .member(Member.builder().email(noteDto.getWriterEmail()).mno(noteDto.getMno()).build())
+      .member(Member.builder().email(noteDto.getMemberEmail()).mno(noteDto.getMno()).build())
       .build();
     return note;
   }
@@ -30,7 +30,7 @@ public interface NoteService {
       .num(note.getNum())
       .title(note.getTitle())
       .content(note.getContent())
-      .writerEmail(note.getMember().getEmail())
+      .memberEmail(note.getMember().getEmail())
       .mno(note.getMember().getMno())
       .regDate(note.getRegDate())
       .modDate(note.getModDate())

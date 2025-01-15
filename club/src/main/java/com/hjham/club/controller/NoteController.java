@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -29,12 +28,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/notes/")
+@RequestMapping("/api/v1/notes")
 public class NoteController {
   private final NoteService service;
 
   @PostMapping
   public Long wirte(@RequestBody NoteDto dto) {
+    log.info(dto);
     return service.write(dto);
   }
 

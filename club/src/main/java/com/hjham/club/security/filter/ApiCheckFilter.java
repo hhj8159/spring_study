@@ -1,19 +1,14 @@
 package com.hjham.club.security.filter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.hjham.club.security.util.JWTUtil;
-import com.nimbusds.jose.shaded.gson.JsonObject;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

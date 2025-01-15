@@ -33,7 +33,7 @@ public class NoteServiceTests {
       .title("제목0113")
       .content("내용0113")
       .mno(100L)
-      .writerEmail("user100@hjham.com")
+      .memberEmail("user100@hjham.com")
     .build());
   }
 
@@ -44,7 +44,7 @@ public class NoteServiceTests {
       .title("제목수정1")
       .content("내용수정1")
       .mno(101L)
-      .writerEmail("hhj8159@gmail.com")
+      .memberEmail("hhj8159@gmail.com")
     .build());
   }
 

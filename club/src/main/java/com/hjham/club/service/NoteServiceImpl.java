@@ -44,9 +44,7 @@ public class NoteServiceImpl implements NoteService {
     noteDto.setMno(member.getMno());
     log.info(noteDto);
     return repository.save(dtoToEntity(noteDto)).getNum();
-    // Note note = dtoToEntity(noteDto);    
-    // repository.save(note);
-    // return note.getNum();
+
   }
   
   @Override

@@ -1,12 +1,15 @@
 package com.hjham.club.entity.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Builder.Default;
 
 @Builder
 @AllArgsConstructor
@@ -20,4 +23,7 @@ public class NoteDto {
   private String memberEmail;
   private Long mno;
   private LocalDateTime regDate, modDate;
+
+  @Default
+  private List<AttachDto> attachDtos = new ArrayList<>();
 }

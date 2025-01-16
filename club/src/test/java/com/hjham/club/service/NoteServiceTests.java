@@ -38,6 +38,12 @@ public class NoteServiceTests {
   }
 
   @Test
+  public void testRead() {
+    NoteDto dto = service.get(37L).get();
+    dto.getAttachDtos().forEach(log::info);
+  }
+
+  @Test
   public void testmodify() {
     service.modify(NoteDto.builder()
       .num(5L)

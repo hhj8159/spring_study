@@ -52,7 +52,7 @@ public class NoteController {
 
   @SuppressWarnings("unchecked")
   @GetMapping("{num}")
-  public ResponseEntity<?> get(@PathVariable Long num) {
+  public ResponseEntity<?> get(@PathVariable("num") Long num) {
     return service.get(num).map(ResponseEntity::ok)
       .orElseGet(() -> {
         Map<String, Object> ret = new HashMap<>();
@@ -65,12 +65,13 @@ public class NoteController {
   }
   
   @PutMapping("{num}")
-  public String modify(@PathVariable Long num, @RequestBody NoteDto dto) {
+  public String modify(@PathVariable("num") Long num, @RequestBody NoteDto dto) {
+
     return service.modify(dto) > 0 ? "success" : "failure" ;
   }
   
   @DeleteMapping("{num}")
-  public String remove(@PathVariable Long num) {
+  public String remove(@PathVariable("num") Long num) {
     return service.remove(num) > 0 ? "success" : "failure" ;
   }
 }

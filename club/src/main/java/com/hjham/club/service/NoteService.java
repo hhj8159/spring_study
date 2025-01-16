@@ -1,7 +1,9 @@
 package com.hjham.club.service;
 
+import com.hjham.club.entity.Attach;
 import com.hjham.club.entity.Member;
 import com.hjham.club.entity.Note;
+import com.hjham.club.entity.dto.AttachDto;
 import com.hjham.club.entity.dto.NoteDto;
 
 import java.util.List;
@@ -17,11 +19,25 @@ public interface NoteService {
 
   default Note dtoToEntity(NoteDto noteDto) {
     Note note = Note.builder()
-      .num(noteDto.getNum())
-      .title(noteDto.getTitle())
-      .content(noteDto.getContent())
-      .member(Member.builder().email(noteDto.getMemberEmail()).mno(noteDto.getMno()).build())
-      .build();
+    .num(noteDto.getNum())
+    .title(noteDto.getTitle())
+    .content(noteDto.getContent())
+    .member(Member.builder().email(noteDto.getMemberEmail()).mno(noteDto.getMno()).build())
+    .build();
+
+    note.setAttachs(noteDto.getAttachDtos().stream().map(a -> Attach.builder()
+        .uuid(a.getUuid())
+        .origin(a.getOrigin())
+        .ext(a.getExt())
+        .fileName(a.getFileName())
+        .image(a.isImage())
+        .mime(a.getMime())
+        .path(a.getPath())
+        .size(a.getSize())
+        .url(a.getUrl())
+        .note(note)
+        .build()).toList()
+      );
     return note;
   }
 
@@ -34,7 +50,19 @@ public interface NoteService {
       .mno(note.getMember().getMno())
       .regDate(note.getRegDate())
       .modDate(note.getModDate())
-      .build();
+      .attachDtos(note.getAttachs().stream().map(a -> AttachDto.builder()
+        .ext(a.getExt())
+        .fileName(a.getFileName())
+        .image(a.isImage())
+        .mime(a.getMime())
+        .num(a.getNote().getNum())
+        .origin(a.getOrigin())
+        .path(a.getPath())
+        .size(a.getSize())
+        .url(a.getUrl())
+        .uuid(a.getUuid())
+        .build()).toList()
+      ).build();
 
     return noteDto;
   }

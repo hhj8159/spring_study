@@ -5,11 +5,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.hjham.club.entity.Likes;
 import com.hjham.club.entity.Member;
 import com.hjham.club.entity.Note;
 import com.hjham.club.entity.dto.NoteDto;
+import com.hjham.club.repository.LikesRepository;
 import com.hjham.club.repository.MemberRepository;
 import com.hjham.club.repository.NoteRepository;
 
@@ -26,16 +29,24 @@ public class NoteServiceImpl implements NoteService {
   private final NoteRepository repository;
   @Autowired
   private MemberRepository memberRepository;
+  @Autowired
+  private LikesRepository likesRepository;
 
   @Override
   public Optional<NoteDto> get(Long num) { // null값도 있을수있기에 optional
-    return repository.findById(num).map(this::entityToDto);
+    long count = likesRepository.count(Example.of(Likes.builder().note(Note.builder().num(num).build()).build()));
+    log.info(count);
+    return repository.findById(num).map(this::entityToDto).map(d -> { d.setLikesCnt(count); return d;});
   }
 
   @Override
   public List<NoteDto> list(String writerEmail) {
-    List<Note> noteList = repository.findByMemberEmail(writerEmail);
-    return noteList.stream().map(note -> entityToDto(note)).collect(Collectors.toList());
+    return repository.findNotesBy(writerEmail).stream().map(o -> {
+      NoteDto dto = entityToDto((Note)o[0]);
+      dto.setLikesCnt((Long)o[1]);
+      dto.setAttachCnt((Long)o[2]);
+      return dto;
+    }).toList();
   }
   
   @Override
@@ -61,7 +72,13 @@ public class NoteServiceImpl implements NoteService {
 
   @Override
   public List<NoteDto> listAll() {
-    return repository.findAll().stream().map(this::entityToDto).toList();
+    return repository.findNotes().stream().map(o -> {
+      NoteDto dto = entityToDto((Note)o[0]);
+      dto.setLikesCnt((Long)o[1]);
+      dto.setAttachCnt((Long)o[2]);
+      return dto;
+    }).toList();
+    // return repository.findAll().stream().map(this::entityToDto).toList();
   }
 
 }

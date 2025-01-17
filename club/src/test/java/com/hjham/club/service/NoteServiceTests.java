@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
+@Transactional
 @Log4j2
 public class NoteServiceTests {
   @Autowired
@@ -39,7 +40,7 @@ public class NoteServiceTests {
 
   @Test
   public void testRead() {
-    NoteDto dto = service.get(37L).get();
+    NoteDto dto = service.get(1L).get();
     dto.getAttachDtos().forEach(log::info);
   }
 

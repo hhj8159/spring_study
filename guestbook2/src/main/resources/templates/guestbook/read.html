@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+      <h1>Register</h1>
+      <form method="post">
+        <div class="mb-3 mt-3">
+          <label for="gno" class="form-label">게시글번호:</label>
+          <input type="text" class="form-control" id="gno" th:value="${dto.gno}" name="title" readonly>
+        </div>
+
+        <div class="mb-3 mt-3">
+          <label for="title" class="form-label">title:</label>
+          <input type="text" class="form-control" id="title" th:value="${dto.title}" name="title" readonly>
+        </div>
+        <label for="content" class="form-label">content</label>
+        <textarea class="form-control" rows="5" id="content" name="content" placeholder="enter content" th:value = "${dto.content}"readonly>[[${dto.content}]]</textarea>
+
+        <div class="mb-3">
+          <label for="writer" class="form-label">writer</label>
+          <input type="text" class="form-control" id="writer" placeholder="Enter writer" th:value="${dto.writer}" name="writer" readonly>
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="gno" class="form-label">regDate:</label>
+          <input type="text" class="form-control" id="regDate" th:value="${dto.regDate}" name="regDate" readonly>
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="modDate" class="form-label">modDate:</label>
+          <input type="text" class="form-control" id="modDate" th:value= "${dto.modDate}" name="modDate" readonly>
+        </div>
+
+        <a th:href="@{/guestbook/modify(gno=${dto.gno},page=${pageDto.page}
+        ,type=${pageDto.type}
+        ,keyword=${pageDto.keyword}
+        )}"class="btn btn-primary">Modify</a>
+        <a th:href="@{/guestbook/list(page=${pageDto.page}
+        ,type=${pageDto.type}
+        ,keyword=${pageDto.keyword}
+        )}"class="btn btn-success">List</a>
+        <!-- <a th:href="@{/guestbook/remove(gno=${dto.gno})}"class="btn btn-danger">Delete</a> -->
+      </form>
+
+
+
+    </th:block>
+  </th:block>
+</html>

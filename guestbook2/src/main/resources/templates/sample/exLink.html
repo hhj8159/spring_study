@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Page Title</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+<ul>
+  <li th:each="dto : ${list}">
+    <a th:href="@{/sample/exView(sno=${dto.sno}, first=${dto.first+dto.last})}">
+      [[${#numbers.formatInteger(dto.sno, 5)}]] --- [[${#temporals.format(dto.regTime, 'yyyy/MM/dd HH:mm:ss.SSS')}]]
+    </a>
+  </li>
+</ul>  
+</body>
+</html>
